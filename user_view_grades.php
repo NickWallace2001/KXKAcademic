@@ -78,6 +78,9 @@ $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
             <?php if ($cum_gpa > 0): ?>
                 <h4>Cumulative GPA: <?php echo round($cum_gpa, 3) ?></h4>
             <?php endif; ?>
+            <?php if ($cum_gpa < 2.5): ?>
+                <h4 style="color:red">ACADEMIC PROBATION</h4>
+            <?php endif; ?>
         </form>
         <?php if (isset($result)): ?>
             <div class="results">
