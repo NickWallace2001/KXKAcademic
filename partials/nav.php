@@ -3,7 +3,7 @@
 require_once(__DIR__ . "/../lib/helpers.php");
 ?>
 
-<!--<link rel="stylesheet" href="<?php //echo getURL("static/css/styles.css"); ?>"> -->
+<!--<link rel="stylesheet" href="<?php //echo getURLkxk("static/css/styles.css"); ?>"> -->
 <!-- CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -20,8 +20,8 @@ require_once(__DIR__ . "/../lib/helpers.php");
     <nav class="navbar navbar-expand-lg navbar-dark bg-info">
         <ul class="navbar-nav mr-auto">
             <?php if (!is_logged_in()): ?>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURL("login.php"); ?>">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURL("register.php"); ?>">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("login.php"); ?>">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("register.php"); ?>">Register</a></li>
             <?php endif; ?>
             <?php if (has_role("Admin")): ?>
                 <li class="nav-item dropdown">
@@ -31,19 +31,19 @@ require_once(__DIR__ . "/../lib/helpers.php");
                         Admin
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="nav-link text-dark" href="<?php echo getURL("test/test_create_survey.php"); ?>">Create Survey</a>
-                        <a class="nav-link text-dark" href="<?php echo getURL("test/test_list_survey_visibility.php"); ?>">View Surveys</a>
-                        <a class="nav-link text-dark" href="<?php echo getURL("test/test_create_question.php"); ?>">Create Question</a>
-                        <a class="nav-link text-dark" href="<?php echo getURL("test/test_list_questions.php"); ?>">View Questions</a>
-                        <a class="nav-link text-dark" href="<?php echo getURL("test/test_view_mySurveys.php"); ?>">My Surveys</a>
-                        <a class="nav-link text-dark" href="<?php echo getURL("taken_surveys.php"); ?>">Taken Surveys</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_create_survey.php"); ?>">Create Survey</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_list_survey_visibility.php"); ?>">View Surveys</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_create_question.php"); ?>">Create Question</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_list_questions.php"); ?>">View Questions</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_view_mySurveys.php"); ?>">My Surveys</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("taken_surveys.php"); ?>">Taken Surveys</a>
                     </div>
                 </li>
             <?php endif; ?>
             <?php if (is_logged_in()): ?>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURL("home.php"); ?>">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURL("profile.php"); ?>">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="<?php echo getURL("logout.php"); ?>">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("home.php"); ?>">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("profile.php"); ?>">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("logout.php"); ?>">Logout</a></li>
             <?php endif; ?>
         </ul>
     </nav>

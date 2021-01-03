@@ -97,6 +97,12 @@ function getURL($path){
     }
     return $_SERVER["CONTEXT_PREFIX"] . "/it202/repo/project/$path";
 }
+function getURLkxk($path){
+    if (substr($path, 0, 1) == "/"){
+        return $path;
+    }
+    return $_SERVER["CONTEXT_PREFIX"] . "/it202/repo/project/$path";
+}
 
 function deleteQuestion($question){
     $db = getDB();
