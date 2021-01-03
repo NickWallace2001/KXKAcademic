@@ -130,6 +130,19 @@ function deleteAnswer($answer){
     }
 }
 
+function deleteClass($class){
+    $db = getDB();
+    $stmt = $db->prepare("DELETE FROM Grades WHERE id='$class'");
+    $r = $stmt->execute();
+    if($r){
+        flash("Class successfully deleted");
+    }
+    else{
+        $e = $stmt->errorInfo();
+        flash("Error updating:". var_export($e, true));
+    }
+}
+
 function paginate($query, $params = [], $per_page = 10) {
     global $page;
     if (isset($_GET["page"])) {
@@ -181,6 +194,9 @@ function getQP($grade, $credits){
             $grade = 1*$credits;
             break;
         case "F":
+            $grade = 0*$credits;
+            break;
+        case "S":
             $grade = 0*$credits;
             break;
         default:

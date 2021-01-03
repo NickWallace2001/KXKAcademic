@@ -75,7 +75,7 @@ if (!isset($username)) {
                 <input class="form-control" type="email" id="email" name="email" required value="<?php safer_echo($email); ?>"/>
             </div>
             <div class="form-group">
-                <label for="user">Username:</label>
+                <label for="user">Username (First & Last Name No Spaces):</label>
                 <input class="form-control" type="text" id="user" name="username" required maxlength="60" value="<?php safer_echo($username); ?>"/>
             </div>
             <div class="form-group">

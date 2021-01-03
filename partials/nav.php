@@ -32,6 +32,7 @@ require_once(__DIR__ . "/../lib/helpers.php");
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="nav-link text-dark" href="<?php echo getURLkxk("add_semester.php"); ?>">Add Semester</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("admin_list_users.php"); ?>">View All Users</a>
                     </div>
                 </li>
             <?php endif; ?>
@@ -39,6 +40,7 @@ require_once(__DIR__ . "/../lib/helpers.php");
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("home.php"); ?>">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("input_grades.php"); ?>">Add Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("profile.php"); ?>">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("user_view_grades.php"); ?>">View Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("logout.php"); ?>">Logout</a></li>
             <?php endif; ?>
         </ul>
