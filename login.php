@@ -6,6 +6,9 @@
                 <input class="form-control" type="email" id="email" name="email"/>
             </div>
             <div class="form-group">
+                <h3>OR</h3>
+            </div>
+            <div class="form-group">
                 <label for="username">Username:</label>
                 <input class="form-control" type="text" id="username" name="username"/>
             </div>
@@ -13,7 +16,7 @@
                 <label for="p1">Password:</label>
                 <input class="form-control" type="password" id="p1" name="password" required/>
             </div>
-            <input class="btn btn-primary" type="submit" name="login" value="Login"/>
+            <input class="btn btn-warning" type="submit" name="login" value="Login"/>
         </form>
     </div>
 

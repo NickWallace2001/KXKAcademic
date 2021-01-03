@@ -128,7 +128,7 @@ if (isset($_POST["saved"])) {
                 <label for="cpw">Confirm Password</label>
                 <input class="form-control" type="password" name="confirm"/>
             </div>
-            <input class="btn btn-primary" type="submit" name="saved" value="Save Profile"/>
+            <input class="btn btn-warning" type="submit" name="saved" value="Save Profile"/>
         </form>
     </div>
 <?php require(__DIR__ . "/partials/flash.php");

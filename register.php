@@ -86,7 +86,7 @@ if (!isset($username)) {
                 <label for="p2">Confirm Password:</label>
                 <input class="form-control" type="password" id="p2" name="confirm" required/>
             </div>
-            <input class="btn btn-primary" type="submit" name="register" value="Register"/>
+            <input class="btn btn-warning" type="submit" name="register" value="Register"/>
         </form>
     </div>
 <?php require(__DIR__ . "/partials/flash.php");

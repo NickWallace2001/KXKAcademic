@@ -17,7 +17,7 @@ require_once(__DIR__ . "/../lib/helpers.php");
         crossorigin="anonymous"></script>
 
 <div class="container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <ul class="navbar-nav mr-auto">
             <?php if (!is_logged_in()): ?>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("login.php"); ?>">Login</a></li>
@@ -31,17 +31,13 @@ require_once(__DIR__ . "/../lib/helpers.php");
                         Admin
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_create_survey.php"); ?>">Create Survey</a>
-                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_list_survey_visibility.php"); ?>">View Surveys</a>
-                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_create_question.php"); ?>">Create Question</a>
-                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_list_questions.php"); ?>">View Questions</a>
-                        <a class="nav-link text-dark" href="<?php echo getURLkxk("test/test_view_mySurveys.php"); ?>">My Surveys</a>
-                        <a class="nav-link text-dark" href="<?php echo getURLkxk("taken_surveys.php"); ?>">Taken Surveys</a>
+                        <a class="nav-link text-dark" href="<?php echo getURLkxk("add_semester.php"); ?>">Add Semester</a>
                     </div>
                 </li>
             <?php endif; ?>
             <?php if (is_logged_in()): ?>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("home.php"); ?>">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("input_grades.php"); ?>">Add Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("profile.php"); ?>">Profile</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("logout.php"); ?>">Logout</a></li>
             <?php endif; ?>

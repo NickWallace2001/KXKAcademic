@@ -156,4 +156,39 @@ function paginate($query, $params = [], $per_page = 10) {
     global $offset;
     $offset = ($page - 1) * $per_page;
 }
+
+function getQP($grade, $credits){
+    switch ($grade){
+        case "A":
+            $grade = 4*$credits;
+            break;
+        case "B+":
+            $grade = 3.5*$credits;
+            break;
+        case "B":
+            $grade = 3*$credits;
+            break;
+        case "C+":
+            $grade = 2.5*$credits;
+            break;
+        case "C":
+            $grade = 2*$credits;
+            break;
+        case "D+":
+            $grade = 1.5*$credits;
+            break;
+        case "D":
+            $grade = 1*$credits;
+            break;
+        case "F":
+            $grade = 0*$credits;
+            break;
+        default:
+            echo "Unsupported grade: " . safer_echo($grade);
+            break;
+    }
+
+    return $grade;
+}
+
 ?>
