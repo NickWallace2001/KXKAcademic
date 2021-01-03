@@ -1,0 +1,111 @@
+<?php require_once(__DIR__ . "/partials/nav.php"); ?>
+    <div class="container-fluid">
+        <form method="POST">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input class="form-control" type="email" id="email" name="email"/>
+            </div>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input class="form-control" type="text" id="username" name="username"/>
+            </div>
+            <div class="form-group">
+                <label for="p1">Password:</label>
+                <input class="form-control" type="password" id="p1" name="password" required/>
+            </div>
+            <input class="btn btn-primary" type="submit" name="login" value="Login"/>
+        </form>
+    </div>
+
+<?php
+if (isset($_POST["login"])) {
+    $email = null;
+    $password = null;
+    $username = null;
+    if (isset($_POST["email"])) {
+        $email = $_POST["email"];
+    }
+    if (isset($_POST["password"])) {
+        $password = $_POST["password"];
+    }
+    if (isset($_POST["username"])) {
+        $username = $_POST["username"];
+    }
+    $isValid = true;
+    /*
+        if (!isset($email) || !isset($password)) {
+            $isValid = false;
+            flash("Email or password missing");
+        }
+    */
+    if (empty($username) && empty($email)){
+        $isValid = false;
+        flash("Email or Username needs to be filled");
+    }
+
+    if (empty($password)){
+        $isValid = false;
+        flash("Enter a password");
+    }
+
+    if (!empty($email) && !strpos($email, "@")) {
+        $isValid = false;
+        //echo "<br>Invalid email<br>";
+        flash("Invalid email");
+    }
+    if ($isValid) {
+        $db = getDB();
+        if (isset($db)) {
+            if (!empty($email)){
+                $stmt = $db->prepare("SELECT id, email, username, password from KXKUsers WHERE email = :email");
+                $params = array(":email" => $email);
+            }
+            else{
+                $stmt = $db->prepare("SELECT id, email, username, password from KXKUsers WHERE username = :username");
+                $params = array(":username" => $username);
+            }
+
+            $r = $stmt->execute($params);
+            //echo "db returned: " . var_export($r, true);
+            $e = $stmt->errorInfo();
+            if ($e[0] != "00000") {
+                //echo "uh oh something went wrong: " . var_export($e, true);
+                flash("Something went wrong, please try again");
+            }
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($result && isset($result["password"])) {
+                $password_hash_from_db = $result["password"];
+                if (password_verify($password, $password_hash_from_db)) {
+                    $stmt = $db->prepare("
+SELECT Roles.name FROM Roles JOIN KXKUserRoles on Roles.id = KXKUserRoles.role_id where KXKUserRoles.user_id = :user_id and Roles.is_active = 1 and KXKUserRoles.is_active = 1");
+                    $stmt->execute([":user_id" => $result["id"]]);
+                    $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    unset($result["password"]);//remove password so we don't leak it beyond this page
+                    //let's create a session for our user based on the other data we pulled from the table
+                    $_SESSION["user"] = $result;//we can save the entire result array since we removed password
+                    if ($roles) {
+                        $_SESSION["user"]["roles"] = $roles;
+                    }
+                    else {
+                        $_SESSION["user"]["roles"] = [];
+                    }
+                    //on successful login let's serve-side redirect the user to the home page.
+                    flash("Log in successful");
+                    die(header("Location: home.php"));
+                }
+                else {
+                    flash("Invalid password");
+                }
+            }
+            else {
+                flash("Invalid user");
+            }
+        }
+    }
+    else {
+        flash("There was a validation issue");
+    }
+}
+?>
+<?php require(__DIR__ . "/partials/flash.php");
