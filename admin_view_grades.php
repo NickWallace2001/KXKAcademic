@@ -12,13 +12,16 @@ if (isset($_GET["username"])){
 }
 ?>
 <?php
-//fetching results for one semester
+//variables
 $db = getDB();
 $term_gpa = 0;
 $cum_gpa = 0;
 $user_id = $id;
+$bothgpas = [];
+$changeInGpa = 0;
 
 if (isset($_POST["semester"])){
+    //pulling selected semester classes
     $semester = $_POST["semester"];
     $stmt = $db->prepare("SELECT Grades.id, Grades.class, Grades.grade, Grades.gpa_hours, Grades.quality_points, Grades.semester_id, Grades.user_id, Semesters.id as semesterid FROM Grades JOIN Semesters on Grades.semester_id = Semesters.id where Semesters.id = :semester_id and Grades.user_id = :user_id");
     $r = $stmt->execute([
@@ -27,6 +30,7 @@ if (isset($_POST["semester"])){
     ]);
     $result = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
+    //finding term gpa
     $termqp = 0;
     $termcredits = 0;
     foreach ($result as $index){
@@ -36,7 +40,51 @@ if (isset($_POST["semester"])){
     if ($termqp > 0) {
         $term_gpa = $termqp / $termcredits;
     }
+
+    //pulling quality points and credits from selected and previous semester
+    $subid = $semester - 1;
+    $stmt = $db->prepare("SELECT semester_id, id, class, grade, gpa_hours, quality_points, user_id FROM Grades where (semester_id = :id or semester_id = :subid) and user_id = :user_id");
+    $r = $stmt->execute([
+        ":id" => $semester,
+        ":subid" => $subid,
+        ":user_id" => $user_id
+    ]);
+    $gpaChange = $stmt->fetchAll(PDO::FETCH_GROUP);
+
+    //finding the quality points and credits for each semester
+    $totals = [[], []];
+    if ($gpaChange){
+        $i = 0;
+        foreach ($gpaChange as $index => $sem){
+            $qp = 0;
+            $gh = 0;
+            foreach ($sem as $details){
+                $qp += floatval($details["quality_points"]);
+                $gh += floatval($details["gpa_hours"]);
+            }
+            array_push($totals[$i], $qp);
+            array_push($totals[$i], $gh);
+            $i+= 1;
+        }
+    }
+
+    //calculating both gpas
+    if (count($totals) > 0) {
+        foreach ($totals as $index) {
+            if (!empty($index[0]) && !empty($index[1])) {
+                $gpa = $index[0] / $index[1];
+                array_push($bothgpas, round($gpa, 3));
+            }
+        }
+    }
+
+    //calculating change in gpa
+    if (count($bothgpas) > 1) {
+        $changeInGpa = $bothgpas[1] - $bothgpas[0];
+    }
+
 }
+//to delete a class
 elseif (isset($_POST["deleteclass"])){
     $itemID = $_POST["deleteclass"];
     deleteClass($itemID);
@@ -46,6 +94,7 @@ $stmt = $db->prepare("SELECT * FROM Grades where Grades.user_id = :user_id");
 $r = $stmt->execute([":user_id" => $user_id]);
 $cumulative = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
+//finding cumulative gpa
 $totalqp = 0;
 $totalcredits = 0;
 foreach ($cumulative as $index){
@@ -56,13 +105,16 @@ if ($totalqp > 0) {
     $cum_gpa = $totalqp / $totalcredits;
 }
 
-//fetching semesters and users
+//fetching semesters for dropdown
 $stmt = $db->prepare("SELECT * from Semesters ORDER BY id DESC LIMIT 10");
 $r = $stmt->execute();
 $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
 
 //echo "<pre>" . var_export($result, true) . "</pre>";
+//echo "<pre>" . var_export($gpaChange, true) . "</pre>";
+//echo "<pre>" . var_export($totals, true) . "</pre>";
+//echo "<pre>" . var_export($bothgpas, true) . "</pre>";
 ?>
 
 <div class="container-fluid">
@@ -91,6 +143,7 @@ $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
         <?php if ($term_gpa > 0): ?>
             <h4>Term GPA: <?php echo round($term_gpa, 3) ?></h4>
         <?php endif; ?>
+        <h4>Term GPA Change From Previous Semester: <?php echo $changeInGpa ?></h4>
         <?php if ($cum_gpa > 0): ?>
             <h4>Cumulative GPA: <?php echo round($cum_gpa, 3) ?></h4>
         <?php endif; ?>

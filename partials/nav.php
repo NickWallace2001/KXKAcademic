@@ -1,6 +1,25 @@
 <?php
 //we'll be including this on most/all pages so it's a good place to include anything else we want on those pages
 require_once(__DIR__ . "/../lib/helpers.php");
+
+//fetching cumulative gpa info
+$db = getDB();
+$user_id = get_user_id();
+$stmt = $db->prepare("SELECT * FROM Grades where Grades.user_id = :user_id");
+$r = $stmt->execute([":user_id" => $user_id]);
+$cumulative = $stmt->fetchALL(PDO::FETCH_ASSOC);
+
+//finding cumulative gpa
+$totalqp = 0;
+$totalcredits = 0;
+foreach ($cumulative as $index){
+    $totalqp += floatval($index["quality_points"]);
+    $totalcredits += floatval($index["gpa_hours"]);
+}
+if ($totalqp > 0) {
+    //$cum_gpa = $totalqp / $totalcredits;
+    $cum_gpa = 2.3;
+}
 ?>
 
 <!--<link rel="stylesheet" href="<?php //echo getURLkxk("static/css/styles.css"); ?>"> -->
@@ -41,6 +60,9 @@ require_once(__DIR__ . "/../lib/helpers.php");
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("input_grades.php"); ?>">Add Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("profile.php"); ?>">Profile</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("user_view_grades.php"); ?>">View Grades</a></li>
+                <?php if ($cum_gpa < 2.5): ?>
+                    <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("study_hours.php"); ?>">Study Hours</a></li>
+                <?php endif; ?>
                 <li class="nav-item"><a class="nav-link" href="<?php echo getURLkxk("logout.php"); ?>">Logout</a></li>
             <?php endif; ?>
         </ul>
