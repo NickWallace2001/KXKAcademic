@@ -3,6 +3,7 @@
 require_once(__DIR__ . "/../lib/helpers.php");
 
 //fetching cumulative gpa info
+$cum_gpa = 0;
 $db = getDB();
 $user_id = get_user_id();
 $stmt = $db->prepare("SELECT * FROM Grades where Grades.user_id = :user_id");
@@ -17,8 +18,8 @@ foreach ($cumulative as $index){
     $totalcredits += floatval($index["gpa_hours"]);
 }
 if ($totalqp > 0) {
-    //$cum_gpa = $totalqp / $totalcredits;
-    $cum_gpa = 2.3;
+    $cum_gpa = $totalqp / $totalcredits;
+    //$cum_gpa = 2.3;
 }
 ?>
 

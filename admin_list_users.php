@@ -61,7 +61,7 @@ else {
 //echo "<pre>" . var_export($results, true) . "</pre>";
 ?>
     <div class="container-fluid">
-        <h3>List Surveys</h3>
+        <h3>List Users</h3>
         <form method="POST" class="form-inline">
             <input class="form-control" name="query" placeholder="Search" value="<?php safer_echo($query); ?>"/>
             <input class="btn btn-warning" type="submit" value="Search" name="search"/>

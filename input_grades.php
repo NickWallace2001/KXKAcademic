@@ -41,6 +41,7 @@ $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
         </div>
         <div class="form-group">
             <label>Credits</label>
+            <h5>If you are doing Pass Fail on this course, Please mark the credits as 0</h5>
             <div class="col-sm-1">
                 <input class="form-control" name="credits" placeholder="e.x. 3"/>
             </div>
