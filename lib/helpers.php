@@ -199,6 +199,12 @@ function getQP($grade, $credits){
         case "S":
             $grade = 0*$credits;
             break;
+        case "P":
+            $grade = 0*$credits;
+            break;
+        case "AC":
+            $grade = 0*$credits;
+            break;
         default:
             echo "Unsupported grade: " . safer_echo($grade);
             break;

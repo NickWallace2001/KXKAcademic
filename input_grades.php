@@ -60,6 +60,7 @@ if (isset($_POST["save"])) {
     $qp = getQP($grade, $credits);
     $user = get_user_id();
     $db = getDB();
+
     $stmt = $db->prepare("INSERT INTO Grades (class, grade, gpa_hours, quality_points, semester_id, user_id) VALUES (:class, :grade, :gpa_hours, :quality_points, :semester_id, :user_id)");
     $r = $stmt->execute([
         ":class" => $class,

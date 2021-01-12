@@ -43,7 +43,7 @@ if (isset($_POST["semester"])){
 
     //pulling quality points and credits from selected and previous semester
     $subid = $semester - 1;
-    $stmt = $db->prepare("SELECT semester_id, id, class, grade, gpa_hours, quality_points, user_id FROM Grades where (semester_id = :id or semester_id = :subid) and user_id = :user_id");
+    $stmt = $db->prepare("SELECT semester_id, id, class, grade, gpa_hours, quality_points, user_id FROM Grades where (semester_id = :id or semester_id = :subid) and user_id = :user_id ORDER BY semester_id asc");
     $r = $stmt->execute([
         ":id" => $semester,
         ":subid" => $subid,
@@ -90,7 +90,7 @@ elseif (isset($_POST["deleteclass"])){
     deleteClass($itemID);
 }
 //fetching cumulative gpa info
-$stmt = $db->prepare("SELECT * FROM Grades where Grades.user_id = :user_id");
+$stmt = $db->prepare("SELECT * FROM Grades where Grades.user_id = :user_id ORDER BY semester_id asc");
 $r = $stmt->execute([":user_id" => $user_id]);
 $cumulative = $stmt->fetchALL(PDO::FETCH_ASSOC);
 
@@ -115,6 +115,7 @@ $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
 //echo "<pre>" . var_export($gpaChange, true) . "</pre>";
 //echo "<pre>" . var_export($totals, true) . "</pre>";
 //echo "<pre>" . var_export($bothgpas, true) . "</pre>";
+//echo "<pre>" . var_export($cumulative, true) . "</pre>";
 ?>
 
 <div class="container-fluid">
