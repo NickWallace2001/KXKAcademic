@@ -101,7 +101,7 @@ function getURLkxk($path){
     if (substr($path, 0, 1) == "/"){
         return $path;
     }
-    return $_SERVER["CONTEXT_PREFIX"] . "/kxk_academic/repo/$path";
+    return $_SERVER["CONTEXT_PREFIX"] . "/kappa_academic/repo/$path";
 }
 
 function deleteQuestion($question){
