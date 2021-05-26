@@ -123,7 +123,7 @@ $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
     <form method= "POST">
         <div class="form-group">
             <label>Semester</label>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <select class="form-control" name="semester" value="<?php echo $semesters["semester"];?>">
                     <option value="<?php echo intval($semesters[0]["id"])?>" <?php echo ($semesters[0]["semester"] == intval($semesters[0]["id"])?'selected=selected"selected"':'');?>><?php echo $semesters[0]["semester"] ?></option>
                     <option value="<?php echo intval($semesters[1]["id"]) ?>" <?php echo ($semesters[1]["semester"] == intval($semesters[1]["id"])?'selected=selected"selected"':'');?>><?php echo $semesters[1]["semester"] ?></option>

@@ -25,6 +25,10 @@ if (isset($_POST["semester"])){
         $term_gpa = $termqp / $termcredits;
     }
 }
+elseif (isset($_POST["deleteclass"])){
+    $itemID = $_POST["deleteclass"];
+    deleteClass($itemID);
+}
 //fetching cumulative gpa info
 $stmt = $db->prepare("SELECT * FROM Grades where Grades.user_id = :user_id");
 $r = $stmt->execute([":user_id" => $user_id]);
@@ -54,7 +58,7 @@ $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
         <form method= "POST">
             <div class="form-group">
                 <label>Semester</label>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <select class="form-control" name="semester" value="<?php echo $semesters["semester"];?>">
                         <option value="<?php echo intval($semesters[0]["id"])?>" <?php echo ($semesters[0]["semester"] == intval($semesters[0]["id"])?'selected=selected"selected"':'');?>><?php echo $semesters[0]["semester"] ?></option>
                         <option value="<?php echo intval($semesters[1]["id"]) ?>" <?php echo ($semesters[1]["semester"] == intval($semesters[1]["id"])?'selected=selected"selected"':'');?>><?php echo $semesters[1]["semester"] ?></option>
@@ -105,6 +109,15 @@ $semesters = $stmt->fetchALL(PDO::FETCH_ASSOC);
                                         <div>Quality Points:</div>
                                         <div><?php safer_echo($class["quality_points"]) ?></div>
                                     </div>
+                                    <div class="col">
+                                        <a class="btn btn-primary" type="button" href="edit_class.php?id=<?php safer_echo($class["id"]); ?>">Edit Question Class</a>
+                                    </div>
+                                    <form method="POST">
+                                        <div class ="col">
+                                            <input type="hidden" name="deleteclass" value="<?php echo($class["id"]); ?>"/>
+                                            <input class="btn btn-danger " type="submit" value="X"/>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         <?php endforeach; ?>
